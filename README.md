@@ -1,6 +1,6 @@
 <br />
 <p align="center">
-    <img src="images/Octicons-mark-github.svg" alt="Logo">
+    <img src="images/Octicons-mark-github.svg" width="200" height="200" alt="Logo">
 
   <h3 align="center">GITSEARCH</h3>
 
