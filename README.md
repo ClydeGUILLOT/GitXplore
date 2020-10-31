@@ -2,7 +2,7 @@
 <p align="center">
     <img src="images/Octicons-mark-github.svg" width="200" height="200" alt="Logo">
 
-  <h3 align="center">GITSEARCH</h3>
+  <h3 align="center">GitXplore</h3>
 
   <p align="center">
     EPITECH 2022
