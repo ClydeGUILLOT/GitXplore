@@ -8,7 +8,7 @@
     "start": "react-native start",
     "test": "jest",
     "lint": "eslint .",
-    "pod" : "cd ios && pod install && cd .."
+    "pod": "cd ios && pod install && cd .."
   },
   "dependencies": {
     "react": "16.13.1",

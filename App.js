@@ -35,7 +35,7 @@ export default class App extends React.Component {
     }
 
     return (
-        <View style={styles.container}>
+        <View>
           <SearchBar/>
           <Text style={styles.welcome}>
             Welcome to GitXplorer
