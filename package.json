@@ -7,12 +7,15 @@
     "ios": "react-native run-ios",
     "start": "react-native start",
     "test": "jest",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "pod" : "cd ios && pod install && cd .."
   },
   "dependencies": {
     "react": "16.13.1",
     "react-native": "0.63.3",
     "react-native-elements": "^3.0.0-alpha.1",
+    "react-native-linear-gradient": "^2.5.6",
+    "react-native-search-bar": "^3.5.1",
     "react-native-vector-icons": "^7.1.0"
   },
   "devDependencies": {
