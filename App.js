@@ -1,23 +1,22 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
-import SplashScreen from "./src/SplashScreen";
-import SearchBar from "./src/SearchBar"
+import {StyleSheet, Text, View} from 'react-native';
+import SplashScreen from './src/SplashScreen';
+import SearchBar from './src/SearchBar';
 
 export default class App extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = { isLoading: true }
+    this.state = {isLoading: true};
   }
 
-  performTimeConsumingTask = async() => {
+  performTimeConsumingTask = async () => {
     return new Promise((resolve) =>
-        setTimeout(
-            () => { resolve('result') },
-            2000
-        )
+      setTimeout(() => {
+        resolve('result');
+      }, 2000),
     );
-  }
+  };
 
   async componentDidMount() {
     // Preload data from an external API
@@ -25,7 +24,7 @@ export default class App extends React.Component {
     const data = await this.performTimeConsumingTask();
 
     if (data !== null) {
-      this.setState({ isLoading: false });
+      this.setState({isLoading: false});
     }
   }
 
@@ -35,12 +34,10 @@ export default class App extends React.Component {
     }
 
     return (
-        <View>
-          <SearchBar/>
-          <Text style={styles.welcome}>
-            Welcome to GitXplorer
-          </Text>
-        </View>
+      <View>
+        <SearchBar />
+        <Text style={styles.welcome}>Welcome to GitXplorer</Text>
+      </View>
     );
   }
 }
