@@ -1,13 +1,21 @@
 import React from 'react';
 import {StyleSheet, Text, View} from 'react-native';
 import SplashScreen from './src/SplashScreen';
-import SearchBar from './src/SearchBar';
+import SearchBar from './src/components/SearchBar';
+import ResultList from './src/components/ResultList';
 
 export default class App extends React.Component {
   constructor(props) {
     super(props);
+    this.state = {
+      result: '',
+    };
 
     this.state = {isLoading: true};
+  }
+
+  getResponse(result) {
+    this.setState({result});
   }
 
   performTimeConsumingTask = async () => {
@@ -34,9 +42,10 @@ export default class App extends React.Component {
     }
 
     return (
-      <View>
-        <SearchBar />
+      <View flex={1}>
+        <SearchBar callback={this.getResponse.bind(this)} />
         <Text style={styles.welcome}>Welcome to GitXplorer</Text>
+        <ResultList data={this.state.result} />
       </View>
     );
   }
