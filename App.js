@@ -3,19 +3,26 @@ import {StyleSheet, Text, View} from 'react-native';
 import SplashScreen from './src/SplashScreen';
 import SearchBar from './src/components/SearchBar';
 import ResultList from './src/components/ResultList';
+import DropDown from './src/components/DropDown';
 
 export default class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       result: '',
+      dropdown: '',
     };
 
     this.state = {isLoading: true};
   }
 
   getResponse(result) {
-    this.setState({result});
+    this.setState({result: result});
+  }
+
+  getDropdown(result) {
+    this.setState({dropdown: result});
+    this.setState({result: ''});
   }
 
   performTimeConsumingTask = async () => {
@@ -43,9 +50,16 @@ export default class App extends React.Component {
 
     return (
       <View flex={1}>
-        <SearchBar callback={this.getResponse.bind(this)} />
+        <SearchBar
+          callback={this.getResponse.bind(this)}
+          search={this.state.dropdown}
+        />
         <Text style={styles.welcome}>Welcome to GitXplorer</Text>
-        <ResultList data={this.state.result} />
+        <DropDown
+          callback={this.getDropdown.bind(this)}
+          search={this.state.dropdown}
+        />
+        <ResultList data={this.state.result} search={this.state.dropdown} />
       </View>
     );
   }

@@ -10,24 +10,40 @@ class App extends React.Component {
   };
 
   renderItem = ({item}) => {
-    return (
-      <ListItem
-        Component={TouchableScale}
-        friction={90}
-        tension={100}
-        activeScale={0.95}>
-        <Avatar rounded source={{uri: item.owner.avatar_url}} />
-        <ListItem.Content>
-          <ListItem.Title>{item.name}</ListItem.Title>
-          <ListItem.Subtitle>{item.owner.login}</ListItem.Subtitle>
-        </ListItem.Content>
-        <ListItem.Chevron />
-      </ListItem>
-    );
+    if (this.props.search === 'repositories') {
+      return (
+        <ListItem
+          Component={TouchableScale}
+          friction={90}
+          tension={100}
+          activeScale={0.95}>
+          <Avatar rounded source={{uri: item.owner.avatar_url}} />
+          <ListItem.Content>
+            <ListItem.Title>{item.name}</ListItem.Title>
+            <ListItem.Subtitle>{item.owner.login}</ListItem.Subtitle>
+          </ListItem.Content>
+          <ListItem.Chevron />
+        </ListItem>
+      );
+    } else if (this.props.search === 'users') {
+      return (
+        <ListItem
+          Component={TouchableScale}
+          friction={90}
+          tension={100}
+          activeScale={0.95}>
+          <Avatar rounded source={{uri: item.avatar_url}} />
+          <ListItem.Content>
+            <ListItem.Title>{item.login}</ListItem.Title>
+            <ListItem.Subtitle>{item.url}</ListItem.Subtitle>
+          </ListItem.Content>
+          <ListItem.Chevron />
+        </ListItem>
+      );
+    }
   };
 
   render() {
-    console.log(this.props.data);
     return (
       <FlatList
         data={this.props.data}

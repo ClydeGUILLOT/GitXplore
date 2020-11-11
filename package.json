@@ -12,10 +12,12 @@
   },
   "dependencies": {
     "@freakycoder/react-native-helpers": ">= 0.0.21",
+    "@react-native-community/picker": "^1.8.1",
     "native-base": "^2.13.14",
     "react": "16.13.1",
     "react-native": "0.63.3",
     "react-native-androw": ">= 0.0.33",
+    "react-native-dropdown-picker": "^3.7.1",
     "react-native-dynamic-vector-icons": ">= 0.2.1",
     "react-native-elements": "^3.0.0-alpha.1",
     "react-native-header-search-bar": "^0.1.10",

@@ -9,12 +9,12 @@ class App extends React.Component {
   };
 
   makeRequest(result) {
-    console.log('TEST');
-    const url = `https://api.github.com/search/repositories?q=${result}`;
+    const url = `https://api.github.com/search/${
+      this.props.search ?? 'repositories'
+    }?q=${result}`;
     fetch(url)
       .then((response) => response.json())
       .then((data) => {
-        console.log(url);
         this.setState({
           data: data.items,
         });
@@ -35,7 +35,7 @@ class App extends React.Component {
         searchIcon={{size: 24}}
         onChangeText={this.updateSearch}
         onSubmitEditing={() => this.makeRequest(this.state.search)}
-        placeholder="Search GitHub repositories"
+        placeholder={'Search GitHub ' + this.props.search ?? 'repositories'}
         value={search}
       />
     );
