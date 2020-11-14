@@ -16,6 +16,7 @@ class App extends React.Component {
         onValueChange={(itemValue, itemIndex) => this.updateSearch(itemValue)}>
         <Picker.Item label="Repositories" value="repositories" />
         <Picker.Item label="Profiles" value="users" />
+        <Picker.Item label="Issues" value="issues" />
       </Picker>
     );
   }

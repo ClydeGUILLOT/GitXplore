@@ -47,6 +47,9 @@ export default class App extends React.Component {
     if (this.state.isLoading) {
       return <SplashScreen />;
     }
+    if (this.state.dropdown == null) {
+      this.getDropdown('repositories');
+    }
 
     return (
       <View flex={1}>

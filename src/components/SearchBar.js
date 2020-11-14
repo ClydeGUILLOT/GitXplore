@@ -35,7 +35,7 @@ class App extends React.Component {
         searchIcon={{size: 24}}
         onChangeText={this.updateSearch}
         onSubmitEditing={() => this.makeRequest(this.state.search)}
-        placeholder={'Search GitHub ' + this.props.search ?? 'repositories'}
+        placeholder={'Search GitHub ' + this.props.search}
         value={search}
       />
     );

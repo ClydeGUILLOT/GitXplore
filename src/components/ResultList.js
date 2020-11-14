@@ -40,6 +40,21 @@ class App extends React.Component {
           <ListItem.Chevron />
         </ListItem>
       );
+    } else if (this.props.search === 'issues') {
+      return (
+        <ListItem
+          Component={TouchableScale}
+          friction={90}
+          tension={100}
+          activeScale={0.95}>
+          <Avatar rounded source={{uri: item.user.avatar_url}} />
+          <ListItem.Content>
+            <ListItem.Title>{item.title}</ListItem.Title>
+            <ListItem.Subtitle>{'Status: ' + item.state}</ListItem.Subtitle>
+          </ListItem.Content>
+          <ListItem.Chevron />
+        </ListItem>
+      );
     }
   };
 
