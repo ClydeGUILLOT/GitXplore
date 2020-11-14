@@ -4,6 +4,9 @@ import TouchableScale from 'react-native-touchable-scale';
 import React from 'react';
 
 class App extends React.Component {
+  constructor(props) {
+    super(props);
+  }
   state = {
     search: '',
     data: '',
@@ -16,7 +19,13 @@ class App extends React.Component {
           Component={TouchableScale}
           friction={90}
           tension={100}
-          activeScale={0.95}>
+          activeScale={0.95}
+          onPress={() =>
+            this.props.navigation.push('Repository', {
+              username: item.owner.login,
+              repoName: item.name,
+            })
+          }>
           <Avatar rounded source={{uri: item.owner.avatar_url}} />
           <ListItem.Content>
             <ListItem.Title>{item.name}</ListItem.Title>
@@ -31,7 +40,12 @@ class App extends React.Component {
           Component={TouchableScale}
           friction={90}
           tension={100}
-          activeScale={0.95}>
+          activeScale={0.95}
+          onPress={() =>
+            this.props.navigation.push('User', {
+              username: item.login,
+            })
+          }>
           <Avatar rounded source={{uri: item.avatar_url}} />
           <ListItem.Content>
             <ListItem.Title>{item.login}</ListItem.Title>
@@ -46,7 +60,14 @@ class App extends React.Component {
           Component={TouchableScale}
           friction={90}
           tension={100}
-          activeScale={0.95}>
+          activeScale={0.95}
+          onPress={() =>
+            this.props.navigation.push('Issue', {
+              username: item.user.login,
+              repoName: item.title,
+              issueNumber: item.user.id.toString(),
+            })
+          }>
           <Avatar rounded source={{uri: item.user.avatar_url}} />
           <ListItem.Content>
             <ListItem.Title>{item.title}</ListItem.Title>

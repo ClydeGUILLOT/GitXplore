@@ -32,7 +32,6 @@ class App extends React.Component {
     return (
       <SearchBar
         round
-        searchIcon={{size: 24}}
         onChangeText={this.updateSearch}
         onSubmitEditing={() => this.makeRequest(this.state.search)}
         placeholder={'Search GitHub ' + this.props.search}
