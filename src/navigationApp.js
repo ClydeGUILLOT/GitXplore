@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
-import User from './src/User';
-import Repository from './src/Repository';
-import Issue from './src/Issue';
+import User from './InformationPages/User';
+import Repository from './InformationPages/Repository';
+import Issue from './InformationPages/Issue';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 

@@ -15,7 +15,7 @@ export default class SplashScreen extends React.Component {
       <View style={viewStyles}>
         <Image
           style={styles.tinyLogo}
-          source={require('../images/github-icon.png')}
+          source={require('../../images/github-icon.png')}
         />
         <Text style={textStyles}>GitXplorer</Text>
       </View>

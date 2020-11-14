@@ -1,88 +1,48 @@
-import React from 'react';
-import {StyleSheet, Text, View} from 'react-native';
-import SplashScreen from './src/SplashScreen';
-import SearchBar from './src/components/SearchBar';
-import ResultList from './src/components/ResultList';
-import DropDown from './src/components/DropDown';
+import React, {Component} from 'react';
+import Home from './src/components/HomePage';
+import User from './src/InformationPages/User';
+import Repository from './src/InformationPages/Repository';
+import Issue from './src/InformationPages/Issue';
+import {NavigationContainer} from '@react-navigation/native';
+import {createStackNavigator} from '@react-navigation/stack';
 
-export default class App extends React.Component {
+const Stack = createStackNavigator();
+
+export default class App extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      result: '',
-      dropdown: '',
-    };
-
-    this.state = {isLoading: true};
-  }
-
-  getResponse(result) {
-    this.setState({result: result});
-  }
-
-  getDropdown(result) {
-    this.setState({dropdown: result});
-    this.setState({result: ''});
-  }
-
-  performTimeConsumingTask = async () => {
-    return new Promise((resolve) =>
-      setTimeout(() => {
-        resolve('result');
-      }, 2000),
-    );
-  };
-
-  async componentDidMount() {
-    // Preload data from an external API
-    // Preload data using AsyncStorage
-    const data = await this.performTimeConsumingTask();
-
-    if (data !== null) {
-      this.setState({isLoading: false});
-    }
   }
 
   render() {
-    if (this.state.isLoading) {
-      return <SplashScreen />;
-    }
-    if (this.state.dropdown == null) {
-      this.getDropdown('repositories');
-    }
-
     return (
-      <View flex={1}>
-        <SearchBar
-          callback={this.getResponse.bind(this)}
-          search={this.state.dropdown}
-        />
-        <Text style={styles.welcome}>Welcome to GitXplorer</Text>
-        <DropDown
-          callback={this.getDropdown.bind(this)}
-          search={this.state.dropdown}
-        />
-        <ResultList data={this.state.result} search={this.state.dropdown} />
-      </View>
+      <NavigationContainer>
+        <Stack.Navigator initialRouteName="Home">
+          <Stack.Screen name="Home" component={Home} />
+          <Stack.Screen
+            name="User"
+            component={User}
+            initialParams={{username: 'Popolipolipopo'}}
+            options={{username: 'Popolipolipopo'}}
+          />
+          <Stack.Screen
+            name="Repository"
+            component={Repository}
+            options={{
+              username: 'Popolipolipopo',
+              repoName: 'test_react_native',
+            }}
+          />
+          <Stack.Screen
+            name="Issue"
+            component={Issue}
+            options={{
+              username: 'Popolipolipopo',
+              repoName: 'test_react_native',
+              issueNumber: '791',
+            }}
+          />
+        </Stack.Navigator>
+      </NavigationContainer>
     );
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF',
-  },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
-  },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
-  },
-});
