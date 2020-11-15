@@ -65,7 +65,7 @@ class App extends React.Component {
             this.props.navigation.push('Issue', {
               username: item.user.login,
               repoName: item.title,
-              issueNumber: item.user.id.toString(),
+              issueNumber: item.number.toString(),
             })
           }>
           <Avatar rounded source={{uri: item.user.avatar_url}} />
