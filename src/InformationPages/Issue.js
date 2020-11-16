@@ -40,7 +40,7 @@ export default class Issue extends Component {
     let tmpIssueInfo = await Utils.fetchInformation(
       `https://api.github.com/repos/${this.username}/${this.repoName}/issues/${this.issueNumber}`,
     );
-    let tmpStorage = await Utils.getData('Users');
+    let tmpStorage = await Utils.getData('issues');
     this.setState({
       isFav: tmpStorage !== null && tmpIssueInfo.id.toString() in tmpStorage,
       issueInfo: tmpIssueInfo,

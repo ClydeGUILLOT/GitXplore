@@ -5,6 +5,7 @@ import SplashScreen from '../components/SplashScreen';
 import DropDown from '../components/DropDown';
 import {Avatar, ListItem} from 'react-native-elements';
 import TouchableScale from 'react-native-touchable-scale';
+import Utils from './Utils';
 
 export default class App extends React.Component {
   constructor(props) {
@@ -12,6 +13,7 @@ export default class App extends React.Component {
     this.state = {
       result: '',
       dropdown: '',
+      fav: '',
     };
 
     this.state = {isLoading: true};
@@ -24,12 +26,11 @@ export default class App extends React.Component {
   getDropdown(result) {
     this.setState({dropdown: result});
     this.setState({result: ''});
+    this.setState({fav: this.getStorageData(result)});
   }
 
   async getStorageData(key) {
-    const result = await AsyncStorage.getItem(key);
-    const data = JSON.parse(JSON.stringify(result));
-    console.log('test ' + data);
+    const result = await Utils.getData(key);
     return result;
   }
 
@@ -52,6 +53,7 @@ export default class App extends React.Component {
   }
 
   renderItem = ({item}) => {
+    console.log('test');
     if (this.state.dropdown === 'repositories') {
       return (
         <ListItem
@@ -144,11 +146,12 @@ export default class App extends React.Component {
         {this.state.result === '' ? (
           <View>
             <Text style={styles.welcome}>Favorites</Text>
-            <FlatList
-              data={this.getStorageData(this.state.dropdown)}
-              renderItem={this.renderItem}
-              keyExtractor={(item, index) => 'key ' + index}
-            />
+            <Text style={styles.welcome}>
+              {
+                Object.entries(this.getStorageData(this.state.dropdown))[0][1]
+                  .name
+              }
+            </Text>
           </View>
         ) : (
           <FlatList
@@ -177,7 +180,6 @@ const styles = StyleSheet.create({
   instructions: {
     textAlign: 'center',
     color: '#333333',
-    backgroundColor: '#00005F',
     marginBottom: 5,
   },
 });

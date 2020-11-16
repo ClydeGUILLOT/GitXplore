@@ -44,7 +44,7 @@ export default class Repository extends Component {
     let tmpRepoIssues = await Utils.fetchInformation(
       `https://api.github.com/repos/${this.username}/${this.repoName}/issues`,
     );
-    let tmpStorage = await Utils.getData('Repositories');
+    let tmpStorage = await Utils.getData('repositories');
     this.setState({
       isFav: tmpStorage !== null && tmpRepoInfo.id.toString() in tmpStorage,
       repoInfo: tmpRepoInfo,
@@ -81,7 +81,7 @@ export default class Repository extends Component {
                 await Utils.addToStorage(
                   'repositories',
                   repoInfo.id.toString(),
-                  this.repoData.owner.login,
+                  this.repoData,
                 );
               }
               this.setState({

@@ -41,7 +41,7 @@ export default class User extends Component {
     let tmpFollowers = await Utils.fetchInformation(
       `https://api.github.com/users/${this.username}/followers`,
     );
-    let tmpStorage = await Utils.getData('Users');
+    let tmpStorage = await Utils.getData('users');
     this.setState({
       isFav: tmpStorage !== null && tmpUserInfo.id.toString() in tmpStorage,
       userInfo: tmpUserInfo,
