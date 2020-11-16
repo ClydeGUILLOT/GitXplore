@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import Home from './src/components/HomePage';
+import Home from './src/InformationPages/Home';
 import User from './src/InformationPages/User';
 import Repository from './src/InformationPages/Repository';
 import Issue from './src/InformationPages/Issue';
@@ -16,11 +16,12 @@ export default class App extends Component {
   render() {
     return (
       <NavigationContainer>
-        <Stack.Navigator initialRouteName="User">
+        <Stack.Navigator initialRouteName="Home">
           <Stack.Screen
             name="Home"
             component={Home}
             initialParams={{username: 'Popolipolipopo'}}
+            options={{username: 'Popolipolipopo'}}
           />
           <Stack.Screen
             name="User"
