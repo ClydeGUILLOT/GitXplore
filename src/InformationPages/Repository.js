@@ -78,10 +78,15 @@ export default class Repository extends Component {
                   repoInfo.id.toString(),
                 );
               } else {
+                let map = {
+                  title: this.repoData.name,
+                  subtitle: this.repoData.html_url,
+                  avatar: this.repoData.owner.avatar_url,
+                };
                 await Utils.addToStorage(
                   'repositories',
                   repoInfo.id.toString(),
-                  this.repoData,
+                  map,
                 );
               }
               this.setState({

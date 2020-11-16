@@ -72,11 +72,12 @@ export default class User extends Component {
               if (this.state.isFav) {
                 await Utils.removeFromStorage('users', userInfo.id.toString());
               } else {
-                await Utils.addToStorage(
-                  'users',
-                  userInfo.id.toString(),
-                  this.userData,
-                );
+                let map = {
+                  title: this.userData.login,
+                  subtitle: this.userData.url,
+                  avatar: this.userData.avatar_url,
+                };
+                await Utils.addToStorage('users', userInfo.id.toString(), map);
               }
               this.setState({
                 isFav: !this.state.isFav,

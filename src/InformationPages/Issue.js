@@ -72,10 +72,15 @@ export default class Issue extends Component {
                   issueInfo.id.toString(),
                 );
               } else {
+                let map = {
+                  title: this.issueData.title,
+                  subtitle: this.issueData.state,
+                  avatar: this.issueData.user.avatar_url,
+                };
                 await Utils.addToStorage(
                   'issues',
                   issueInfo.id.toString(),
-                  this.issueData,
+                  map,
                 );
               }
               this.setState({
