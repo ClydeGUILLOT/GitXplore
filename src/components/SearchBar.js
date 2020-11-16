@@ -32,12 +32,27 @@ class App extends React.Component {
     return (
       <SearchBar
         round
+        containerStyle={styles.background}
         onChangeText={this.updateSearch}
         onSubmitEditing={() => this.makeRequest(this.state.search)}
         placeholder={'Search GitHub ' + this.props.search}
         value={search}
+        style={styles.search}
       />
     );
   }
 }
 export default App;
+
+const styles = StyleSheet.create({
+  search: {
+    fontSize: 20,
+    textAlign: 'left',
+    color: '#FFFFFF',
+    margin: 4,
+  },
+  background: {
+    backgroundColor: '#303030',
+    color: '#FFFFFF',
+  },
+});

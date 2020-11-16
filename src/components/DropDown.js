@@ -12,7 +12,6 @@ class App extends React.Component {
     return (
       <Picker
         selectedValue={this.props.search}
-        style={{alignContent: 'center'}}
         onValueChange={(itemValue, itemIndex) => this.updateSearch(itemValue)}>
         <Picker.Item label="Repositories" value="repositories" />
         <Picker.Item label="Profiles" value="users" />

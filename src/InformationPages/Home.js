@@ -1,15 +1,5 @@
-import React, {Component} from 'react';
-import {
-  ActivityIndicator,
-  FlatList,
-  Image,
-  Text,
-  View,
-  TouchableOpacity,
-  StyleSheet,
-} from 'react-native';
-import Utils from './Utils';
-import ResultList from '../components/ResultList';
+import React from 'react';
+import {AsyncStorage, FlatList, StyleSheet, View, Text} from 'react-native';
 import SearchBar from '../components/SearchBar';
 import SplashScreen from '../components/SplashScreen';
 import DropDown from '../components/DropDown';
@@ -36,6 +26,13 @@ export default class App extends React.Component {
     this.setState({result: ''});
   }
 
+  async getStorageData(key) {
+    const result = await AsyncStorage.getItem(key);
+    const data = JSON.parse(JSON.stringify(result));
+    console.log('test ' + data);
+    return result;
+  }
+
   performTimeConsumingTask = async () => {
     return new Promise((resolve) =>
       setTimeout(() => {
@@ -59,6 +56,7 @@ export default class App extends React.Component {
       return (
         <ListItem
           Component={TouchableScale}
+          style={styles.instructions}
           friction={90}
           tension={100}
           activeScale={0.95}
@@ -66,6 +64,7 @@ export default class App extends React.Component {
             this.props.navigation.push('Repository', {
               username: item.owner.login,
               repoName: item.name,
+              repoData: item,
             })
           }>
           <Avatar rounded source={{uri: item.owner.avatar_url}} />
@@ -86,6 +85,7 @@ export default class App extends React.Component {
           onPress={() =>
             this.props.navigation.push('User', {
               username: item.login,
+              userData: item,
             })
           }>
           <Avatar rounded source={{uri: item.avatar_url}} />
@@ -97,6 +97,7 @@ export default class App extends React.Component {
         </ListItem>
       );
     } else if (this.state.dropdown === 'issues') {
+      console.log(item.url.split('/')[5]);
       return (
         <ListItem
           Component={TouchableScale}
@@ -106,13 +107,14 @@ export default class App extends React.Component {
           onPress={() =>
             this.props.navigation.push('Issue', {
               username: item.user.login,
-              repoName: item.title,
-              issueNumber: item.number.toString(),
+              repoName: item.url.split('/')[5],
+              issueNumber: item.number,
+              issueData: item,
             })
           }>
           <Avatar rounded source={{uri: item.user.avatar_url}} />
           <ListItem.Content>
-            <ListItem.Title>{item.title}</ListItem.Title>
+            <ListItem.Title>{item.user.login}</ListItem.Title>
             <ListItem.Subtitle>{'Status: ' + item.state}</ListItem.Subtitle>
           </ListItem.Content>
           <ListItem.Chevron />
@@ -135,16 +137,26 @@ export default class App extends React.Component {
           callback={this.getResponse.bind(this)}
           search={this.state.dropdown}
         />
-        <Text style={styles.welcome}>Welcome to GitXplorer</Text>
         <DropDown
           callback={this.getDropdown.bind(this)}
           search={this.state.dropdown}
         />
-        <FlatList
-          data={this.state.result}
-          renderItem={this.renderItem}
-          keyExtractor={(item, index) => 'key ' + index}
-        />
+        {this.state.result === '' ? (
+          <View>
+            <Text style={styles.welcome}>Favorites</Text>
+            <FlatList
+              data={this.getStorageData(this.state.dropdown)}
+              renderItem={this.renderItem}
+              keyExtractor={(item, index) => 'key ' + index}
+            />
+          </View>
+        ) : (
+          <FlatList
+            data={this.state.result}
+            renderItem={this.renderItem}
+            keyExtractor={(item, index) => 'key ' + index}
+          />
+        )}
       </View>
     );
   }
@@ -165,6 +177,7 @@ const styles = StyleSheet.create({
   instructions: {
     textAlign: 'center',
     color: '#333333',
+    backgroundColor: '#00005F',
     marginBottom: 5,
   },
 });
