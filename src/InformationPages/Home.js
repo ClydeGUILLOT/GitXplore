@@ -3,7 +3,7 @@ import {AsyncStorage, FlatList, StyleSheet, View, Text} from 'react-native';
 import SearchBar from '../components/SearchBar';
 import SplashScreen from '../components/SplashScreen';
 import DropDown from '../components/DropDown';
-import {Avatar, ListItem} from 'react-native-elements';
+import {Avatar, Icon, ListItem} from 'react-native-elements';
 import TouchableScale from 'react-native-touchable-scale';
 import Utils from './Utils';
 
@@ -164,6 +164,7 @@ export default class App extends React.Component {
                     callback={this.getDropdown.bind(this)}
                     search={this.state.dropdown}
                 />
+                <Icon name={"refresh"} onPress={() => {this.getDropdown(this.state.dropdown)}}/>
                 {this.state.result === '' ? (
                     <View>
                         <Text style={styles.welcome}>Favorites</Text>
