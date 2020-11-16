@@ -1,82 +1,64 @@
 import React, {Component} from 'react';
-import {
-  ActivityIndicator,
-  FlatList,
-  Text,
-  View,
-  TouchableOpacity,
-} from 'react-native';
+import {ActivityIndicator, FlatList, Text, View, TouchableOpacity} from 'react-native';
 import Utils from './Utils';
+import {Icon} from 'react-native-elements';
 
 export default class Issue extends Component {
-  constructor(props) {
-    super(props);
-    this.username =
-      this.props.route.params.username !== undefined
-        ? this.props.route.params.username
-        : 'octocat';
-    this.repoName =
-      this.props.route.params.repoName !== undefined
-        ? this.props.route.params.repoName
-        : 'hello-world';
-    this.issueNumber =
-      this.props.route.params.issueNumber !== undefined
-        ? this.props.route.params.issueNumber
-        : '791';
-    this.state = {
-      issueInfo: {},
-      isLoading: true,
-    };
-  }
+    constructor(props) {
+        super(props);
+        this.username = this.props.route.params.username !== undefined ? this.props.route.params.username : "octocat";
+        this.repoName = this.props.route.params.repoName !== undefined ? this.props.route.params.repoName : "hello-world";
+        this.issueNumber = this.props.route.params.issueNumber !== undefined ? this.props.route.params.issueNumber : "791";
+        this.state = {
+            issueInfo: {},
+            isLoading: true
+        };
+    }
 
-  async getGithubInfo() {
-    let tmpIssueInfo = await Utils.fetchInformation(
-      `https://api.github.com/repos/${this.username}/${this.repoName}/issues/${this.issueNumber}`,
-    );
-    console.log(
-      `https://api.github.com/repos/${this.username}/${this.repoName}/issues/${this.issueNumber}`,
-    );
-    this.setState({
-      issueInfo: tmpIssueInfo,
-      isLoading: false,
-    });
-  }
+    async getGithubInfo() {
+        let tmpIssueInfo = await Utils.fetchInformation(`https://api.github.com/repos/${this.username}/${this.repoName}/issues/${this.issueNumber}`);
+        this.setState({
+            issueInfo: tmpIssueInfo,
+            isLoading: false
+        });
+    }
 
-  componentDidMount() {
-    this.getGithubInfo();
-  }
+    componentDidMount() {
+        this.getGithubInfo();
+    }
 
-  render() {
-    const {issueInfo, isLoading} = this.state;
+    render() {
+        const { issueInfo, isLoading } = this.state;
 
-    return (
-      <View style={{flex: 1, padding: 24}}>
-        {isLoading ? (
-          <ActivityIndicator />
-        ) : (
-          <View>
-            <View style={{alignItems: 'center'}}>
-              <Text style={{fontSize: 23, fontWeight: 'bold', padding: 15}}>
-                {issueInfo.title}
-              </Text>
-              <Text style={{fontSize: 18, fontStyle: 'italic', padding: 15}}>
-                {issueInfo.state}
-              </Text>
-              <Text style={{fontSize: 15, padding: 15}}>{issueInfo.body}</Text>
-              <TouchableOpacity
-                onPress={() =>
-                  this.props.navigation.push('User', {
-                    username: issueInfo.user.login.toString(),
-                  })
-                }>
-                <Text style={{fontSize: 17, padding: 15}}>
-                  Submitted by: {issueInfo.user.login}
-                </Text>
-              </TouchableOpacity>
+        return (
+            <View style={{ flex: 1, padding: 24, backgroundColor: "#000000"}}>
+                {isLoading ? <ActivityIndicator/> : (
+                    <View>
+                        <View style={{alignItems: "center"}}>
+                            <Text style={{fontSize: 23, fontWeight: "bold", color: "white", padding: 15}}>{issueInfo.title}</Text>
+                            <View style={{flexDirection: 'row', padding: 15}}>
+                                <Icon
+                                    name={issueInfo.state === "open" ? "report" : "verified"}
+                                    color={issueInfo.state === "open" ? "red" : "springgreen"}
+                                />
+                                <Text style={{fontSize: 18, fontStyle: "italic", color: "white"}}>{"\t"}{issueInfo.state}</Text>
+                            </View>
+                            <Text style={{fontSize: 15, fontStyle: issueInfo.body !== null ? "normal" : "italic", color: "white", padding: 15}}>{issueInfo.body !== null ? `"${issueInfo.body}"` : "No description"}</Text>
+                            <TouchableOpacity onPress={() => this.props.navigation.push('User', {
+                                username: issueInfo.user.login.toString()
+                            })}>
+                                <View style={{flexDirection: 'row', padding: 15}}>
+                                    <Icon
+                                        name="person"
+                                        color="cyan"
+                                    />
+                                    <Text style={{fontSize: 17, fontStyle: "italic", fontWeight: "bold", color: "white"}}>{"\t"}{issueInfo.user.login}</Text>
+                                </View>
+                            </TouchableOpacity>
+                        </View>
+                    </View>
+                )}
             </View>
-          </View>
-        )}
-      </View>
-    );
-  }
-}
+        );
+    }
+};
