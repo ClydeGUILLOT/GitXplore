@@ -86,7 +86,7 @@ export default class Repository extends Component {
                 await Utils.addToStorage(
                   'repositories',
                   repoInfo.id.toString(),
-                  map,
+                  this.repoData,
                 );
               }
               this.setState({

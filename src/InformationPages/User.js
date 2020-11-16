@@ -77,7 +77,7 @@ export default class User extends Component {
                   subtitle: this.userData.url,
                   avatar: this.userData.avatar_url,
                 };
-                await Utils.addToStorage('users', userInfo.id.toString(), map);
+                await Utils.addToStorage('users', userInfo.id.toString(), this.userData);
               }
               this.setState({
                 isFav: !this.state.isFav,

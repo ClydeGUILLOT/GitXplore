@@ -80,7 +80,7 @@ export default class Issue extends Component {
                 await Utils.addToStorage(
                   'issues',
                   issueInfo.id.toString(),
-                  map,
+                  this.issueData,
                 );
               }
               this.setState({
