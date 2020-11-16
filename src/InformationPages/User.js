@@ -94,8 +94,8 @@ export default class User extends Component {
               <Image
                 style={{
                   alignSelf: 'center',
-                  height: 150,
-                  width: 150,
+                  height: 100,
+                  width: 100,
                   borderWidth: 1,
                   borderRadius: 75,
                 }}
@@ -107,11 +107,11 @@ export default class User extends Component {
                   fontSize: 23,
                   fontWeight: 'bold',
                   color: 'white',
-                  padding: 30,
+                  padding: 10,
                 }}>
                 {userInfo.login}
               </Text>
-              <View style={{flexDirection: 'row', padding: 15}}>
+              <View style={{flexDirection: 'row', padding: 0}}>
                 <Icon name="person" color="white" />
                 <Text
                   style={{fontSize: 18, fontStyle: 'italic', color: 'white'}}>
@@ -123,7 +123,7 @@ export default class User extends Component {
             <View
               style={{
                 flexDirection: 'row',
-                padding: 15,
+                padding: 10,
                 justifyContent: 'space-around',
               }}>
               <View style={{flex: 1, alignItems: 'center'}}>

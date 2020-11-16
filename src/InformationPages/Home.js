@@ -34,15 +34,11 @@ export default class App extends React.Component {
             const result = await Utils.getData(key);
             if (result !== null) {
                 // We have data!!
-                const data = Object.entries(result)[0][1];
                 let tmp = [];
                 for (let i in result) {
                     tmp.push(result[i]);
                 }
                 this.setState({
-                    name: data.name,
-                    html_url: data.html_url,
-                    avatar_url: data.owner.avatar_url,
                     dropdown: key,
                     result: '',
                     fav: tmp,
@@ -52,14 +48,12 @@ export default class App extends React.Component {
                 this.setState({
                     dropdown: key,
                     result: '',
-                    fav: '',
                 });
             }
         } catch (error) {
             this.setState({
                 dropdown: key,
                 result: '',
-                fav: '',
             });
         }
     }
@@ -173,13 +167,11 @@ export default class App extends React.Component {
                 {this.state.result === '' ? (
                     <View>
                         <Text style={styles.welcome}>Favorites</Text>
-                        {this.state.fav !== '' &&
-                        < FlatList
+                        <FlatList
                             data={this.state.fav}
                             renderItem={this.renderItem}
                             keyExtractor={(item, index) => 'key ' + index}
-                            />
-                        }
+                        />
                         {/*<ListItem
                             Component={TouchableScale}
                             friction={90}
