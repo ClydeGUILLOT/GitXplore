@@ -14,6 +14,9 @@ export default class App extends React.Component {
       result: '',
       dropdown: '',
       fav: '',
+      name: '',
+      html_url: '',
+      avatar_url: '',
     };
 
     this.state = {isLoading: true};
@@ -30,8 +33,22 @@ export default class App extends React.Component {
   }
 
   async getStorageData(key) {
-    const result = await Utils.getData(key);
-    return result;
+    try {
+      const result = await Utils.getData(key);
+      if (result !== null) {
+        // We have data!!
+        const data = Object.entries(result)[0][1];
+        this.setState({
+          name: data.name,
+          html_url: data.html_url,
+          avatar_url: data.owner.avatar_url,
+        });
+        console.log(data);
+        return data;
+      }
+    } catch (error) {
+      // Error retrieving data
+    }
   }
 
   performTimeConsumingTask = async () => {
@@ -53,7 +70,6 @@ export default class App extends React.Component {
   }
 
   renderItem = ({item}) => {
-    console.log('test');
     if (this.state.dropdown === 'repositories') {
       return (
         <ListItem
@@ -146,12 +162,25 @@ export default class App extends React.Component {
         {this.state.result === '' ? (
           <View>
             <Text style={styles.welcome}>Favorites</Text>
-            <Text style={styles.welcome}>
-              {
-                Object.entries(this.getStorageData(this.state.dropdown))[0][1]
-                  .name
-              }
-            </Text>
+            <ListItem
+              Component={TouchableScale}
+              friction={90}
+              tension={100}
+              activeScale={0.95}>
+              <Avatar
+                rounded
+                source={{
+                  uri: this.state.avatar_url,
+                }}
+              />
+              <ListItem.Content>
+                <ListItem.Title>{this.state.name ?? ''}</ListItem.Title>
+                <ListItem.Subtitle>
+                  {this.state.html_url ?? ''}
+                </ListItem.Subtitle>
+              </ListItem.Content>
+              <ListItem.Chevron />
+            </ListItem>
           </View>
         ) : (
           <FlatList
