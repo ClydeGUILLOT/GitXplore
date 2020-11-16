@@ -59,32 +59,6 @@ export default class User extends Component {
     const {userInfo, isLoading} = this.state;
     return (
       <View style={{flex: 1, padding: 24, backgroundColor: '#000000'}}>
-        <View
-          style={{
-            flex: 1,
-            flexDirection: 'row',
-            justifyContent: 'flex-end',
-          }}>
-          <Icon
-            name={this.state.isFav ? 'favorite' : 'favorite'}
-            color={this.state.isFav ? 'red' : 'white'}
-            onPress={async () => {
-              if (this.state.isFav) {
-                await Utils.removeFromStorage('users', userInfo.id.toString());
-              } else {
-                let map = {
-                  title: this.userData.login,
-                  subtitle: this.userData.url,
-                  avatar: this.userData.avatar_url,
-                };
-                await Utils.addToStorage('users', userInfo.id.toString(), this.userData);
-              }
-              this.setState({
-                isFav: !this.state.isFav,
-              });
-            }}
-          />
-        </View>
         <StatusBar backgroundColor="#303030" />
         {isLoading ? (
           <ActivityIndicator color={'white'} />
@@ -112,6 +86,32 @@ export default class User extends Component {
                 {userInfo.login}
               </Text>
               <View style={{flexDirection: 'row', padding: 0}}>
+                <View
+                    style={{
+                      flex: 1,
+                      flexDirection: 'row',
+                      justifyContent: 'flex-start',
+                    }}>
+                  <Icon
+                      name={this.state.isFav ? 'favorite' : 'favorite'}
+                      color={this.state.isFav ? 'red' : 'white'}
+                      onPress={async () => {
+                        if (this.state.isFav) {
+                          await Utils.removeFromStorage('users', userInfo.id.toString());
+                        } else {
+                          let map = {
+                            title: this.userData.login,
+                            subtitle: this.userData.url,
+                            avatar: this.userData.avatar_url,
+                          };
+                          await Utils.addToStorage('users', userInfo.id.toString(), this.userData);
+                        }
+                        this.setState({
+                          isFav: !this.state.isFav,
+                        });
+                      }}
+                  />
+                </View>
                 <Icon name="person" color="white" />
                 <Text
                   style={{fontSize: 18, fontStyle: 'italic', color: 'white'}}>
