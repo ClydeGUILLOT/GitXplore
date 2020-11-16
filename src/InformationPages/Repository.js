@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {ActivityIndicator, FlatList, Text, View, TouchableOpacity} from 'react-native';
+import {ActivityIndicator, FlatList, Text, View, TouchableOpacity, StatusBar} from 'react-native';
 import Utils from './Utils';
 import {Icon} from 'react-native-elements';
 
@@ -9,6 +9,7 @@ export default class Repository extends Component {
         this.username = this.props.route.params.username !== undefined ? this.props.route.params.username : "Popolipolipopo";
         this.repoName = this.props.route.params.repoName !== undefined ? this.props.route.params.repoName : "test_react_native";
         this.state = {
+            isFav: false,
             repoInfo: {},
             contributors: [],
             issues: [],
@@ -20,7 +21,9 @@ export default class Repository extends Component {
         let tmpRepoInfo = await Utils.fetchInformation(`https://api.github.com/repos/${this.username}/${this.repoName}`);
         let tmpRepoContributors = await Utils.fetchInformation(`https://api.github.com/repos/${this.username}/${this.repoName}/contributors`);
         let tmpRepoIssues = await Utils.fetchInformation(`https://api.github.com/repos/${this.username}/${this.repoName}/issues`);
+        let tmpStorage = await Utils.getData("Repositories");
         this.setState({
+            isFav: tmpStorage !== null && tmpRepoInfo.id.toString() in tmpStorage,
             repoInfo: tmpRepoInfo,
             contributors: tmpRepoContributors,
             issues: tmpRepoIssues,
@@ -37,6 +40,26 @@ export default class Repository extends Component {
 
         return (
             <View style={{ flex: 1, padding: 24, backgroundColor: "#000000"}}>
+                <View style={{
+                    flexDirection: 'row',
+                    justifyContent: 'flex-end',
+                }}>
+                    <Icon
+                        name={this.state.isFav ? "favorite" : "favorite"}
+                        color={this.state.isFav ? "red" : "white"}
+                        onPress={async () => {
+                            if (this.state.isFav) {
+                                await Utils.removeFromStorage("Repositories", repoInfo.id.toString());
+                            } else {
+                                await Utils.addToStorage("Repositories", repoInfo.id.toString(), repoInfo);
+                            }
+                            this.setState({
+                                isFav: !this.state.isFav
+                            });
+                        }}
+                    />
+                </View>
+                <StatusBar backgroundColor="#303030" />
                 {isLoading ? <ActivityIndicator/> : (
                     <View>
                         <View style={{alignItems: "center"}}>

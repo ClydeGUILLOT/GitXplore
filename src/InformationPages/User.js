@@ -8,6 +8,7 @@ export default class User extends Component {
         super(props);
         this.username = this.props.route.params.username !== undefined ? this.props.route.params.username.toString() : "Popolipolipopo";
         this.state = {
+            isFav: false,
             userInfo: {},
             repos: [],
             followers: [],
@@ -19,7 +20,9 @@ export default class User extends Component {
         let tmpUserInfo = await Utils.fetchInformation(`https://api.github.com/users/${this.username}`);
         let tmpRepos = await Utils.fetchInformation(`https://api.github.com/users/${this.username}/repos`);
         let tmpFollowers = await Utils.fetchInformation(`https://api.github.com/users/${this.username}/followers`);
+        let tmpStorage = await Utils.getData("Users");
         this.setState({
+            isFav: tmpStorage !== null && tmpUserInfo.id.toString() in tmpStorage,
             userInfo: tmpUserInfo,
             repos: tmpRepos,
             followers: tmpFollowers,
@@ -35,8 +38,28 @@ export default class User extends Component {
         const { userInfo, isLoading } = this.state;
         return (
             <View style={{ flex: 1, padding: 24, backgroundColor: "#000000"}}>
+                <View style={{
+                    flex: 1,
+                    flexDirection: 'row',
+                    justifyContent: 'flex-end',
+                }}>
+                    <Icon
+                        name={this.state.isFav ? "favorite" : "favorite"}
+                        color={this.state.isFav ? "red" : "white"}
+                        onPress={async () => {
+                            if (this.state.isFav) {
+                                await Utils.removeFromStorage("Users", userInfo.id.toString());
+                            } else {
+                                await Utils.addToStorage("Users", userInfo.id.toString(), userInfo);
+                            }
+                            this.setState({
+                                isFav: !this.state.isFav
+                            });
+                        }}
+                    />
+                </View>
                 <StatusBar backgroundColor="#303030" />
-                {isLoading ? <ActivityIndicator/> : (
+                {isLoading ? <ActivityIndicator color={"white"}/> : (
                     <View style={{justifyContent: 'space-between'}}>
                         <View style={{alignItems: "center"}}>
                             <Image
