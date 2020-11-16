@@ -12,14 +12,13 @@ export default class App extends React.Component {
     super(props);
     this.state = {
       result: '',
-      dropdown: '',
+      dropdown: 'repositories',
       fav: '',
       title: '',
       subtitle: '',
       avatar_url: '',
+      isLoading: true,
     };
-
-    this.state = {isLoading: true};
   }
 
   getResponse(result) {
@@ -40,9 +39,9 @@ export default class App extends React.Component {
         let _subtitle = [];
         let _avatar = [];
         Object.keys(data).map((key) => {
-          _title.push(data[key].title);
-          _subtitle.push(data[key].subtitle);
-          _avatar.push(data[key].avatar);
+          _title.push(data[key][1].title);
+          _subtitle.push(data[key][1].subtitle);
+          _avatar.push(data[key][1].avatar);
         });
         console.log(_title);
         this.setState({
@@ -63,6 +62,13 @@ export default class App extends React.Component {
         });
       }
     } catch (error) {
+      this.setState({
+        title: '',
+        subtitle: '',
+        avatar_url: '',
+        dropdown: key,
+        result: '',
+      });
       // Error retrieving data
     }
   }
@@ -79,6 +85,7 @@ export default class App extends React.Component {
     // Preload data from an external API
     // Preload data using AsyncStorage
     const data = await this.performTimeConsumingTask();
+    this.getDropdown('repositories');
 
     if (data !== null) {
       this.setState({isLoading: false});
@@ -86,12 +93,10 @@ export default class App extends React.Component {
   }
 
   renderItem = ({item}) => {
-    console.log('test');
     if (this.state.dropdown === 'repositories') {
       return (
         <ListItem
           Component={TouchableScale}
-          style={styles.instructions}
           friction={90}
           tension={100}
           activeScale={0.95}
@@ -161,9 +166,6 @@ export default class App extends React.Component {
   render() {
     if (this.state.isLoading) {
       return <SplashScreen />;
-    }
-    if (this.state.dropdown == null) {
-      this.getDropdown('repositories');
     }
 
     return (
