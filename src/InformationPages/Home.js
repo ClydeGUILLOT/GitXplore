@@ -44,20 +44,22 @@ export default class App extends React.Component {
                     html_url: data.html_url,
                     avatar_url: data.owner.avatar_url,
                     dropdown: key,
-                    result: "",
-                    fav: tmp
+                    result: '',
+                    fav: tmp,
                 });
                 return data;
             } else {
                 this.setState({
                     dropdown: key,
-                    result: "",
+                    result: '',
+                    fav: '',
                 });
             }
         } catch (error) {
             this.setState({
                 dropdown: key,
-                result: "",
+                result: '',
+                fav: '',
             });
         }
     }
@@ -171,11 +173,13 @@ export default class App extends React.Component {
                 {this.state.result === '' ? (
                     <View>
                         <Text style={styles.welcome}>Favorites</Text>
-                        <FlatList
+                        {this.state.fav !== '' &&
+                        < FlatList
                             data={this.state.fav}
                             renderItem={this.renderItem}
                             keyExtractor={(item, index) => 'key ' + index}
-                        />
+                            />
+                        }
                         {/*<ListItem
                             Component={TouchableScale}
                             friction={90}
