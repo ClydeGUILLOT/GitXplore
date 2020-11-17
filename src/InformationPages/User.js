@@ -105,6 +105,8 @@ export default class User extends Component {
                           let index = searchResults["items"].findIndex((item) => {
                             return item['id'] === userInfo['id'];
                           });
+                          if (index === -1)
+                            index = 0;
                           await Utils.addToStorage(
                               'users',
                               userInfo.id.toString(),

@@ -84,7 +84,8 @@ export default class Repository extends Component {
                 let index = searchResults["items"].findIndex((item) => {
                   return item['id'] === repoInfo['id'];
                 });
-                console.log(index);
+                if (index === -1)
+                  index = 0;
                 await Utils.addToStorage(
                   'repositories',
                   repoInfo.id.toString(),

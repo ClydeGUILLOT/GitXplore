@@ -77,6 +77,8 @@ export default class Issue extends Component {
                 let index = searchResults["items"].findIndex((item) => {
                   return item['id'] === issueInfo['id'];
                 });
+                if (index === -1)
+                  index = 0;
                 await Utils.addToStorage(
                   'issues',
                   issueInfo.id.toString(),
