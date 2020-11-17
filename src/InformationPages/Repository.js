@@ -78,15 +78,17 @@ export default class Repository extends Component {
                   repoInfo.id.toString(),
                 );
               } else {
-                let map = {
-                  title: this.repoData.name,
-                  subtitle: this.repoData.html_url,
-                  avatar: this.repoData.owner.avatar_url,
-                };
+                let searchResults = await Utils.fetchInformation(
+                    `https://api.github.com/search/repositories?q=${this.repoName}`,
+                );
+                let index = searchResults["items"].findIndex((item) => {
+                  return item['id'] === repoInfo['id'];
+                });
+                console.log(index);
                 await Utils.addToStorage(
                   'repositories',
                   repoInfo.id.toString(),
-                  this.repoData,
+                  searchResults["items"][index],
                 );
               }
               this.setState({

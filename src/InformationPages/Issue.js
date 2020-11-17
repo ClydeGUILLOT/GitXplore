@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import {
   ActivityIndicator,
-  FlatList,
   Text,
   View,
   TouchableOpacity,
@@ -72,15 +71,16 @@ export default class Issue extends Component {
                   issueInfo.id.toString(),
                 );
               } else {
-                let map = {
-                  title: this.issueData.title,
-                  subtitle: this.issueData.state,
-                  avatar: this.issueData.user.avatar_url,
-                };
+                let searchResults = await Utils.fetchInformation(
+                    `https://api.github.com/search/issues?q=${issueInfo.title}`,
+                );
+                let index = searchResults["items"].findIndex((item) => {
+                  return item['id'] === issueInfo['id'];
+                });
                 await Utils.addToStorage(
                   'issues',
                   issueInfo.id.toString(),
-                  this.issueData,
+                  searchResults["items"][index],
                 );
               }
               this.setState({

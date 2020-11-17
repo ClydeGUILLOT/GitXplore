@@ -99,12 +99,17 @@ export default class User extends Component {
                         if (this.state.isFav) {
                           await Utils.removeFromStorage('users', userInfo.id.toString());
                         } else {
-                          let map = {
-                            title: this.userData.login,
-                            subtitle: this.userData.url,
-                            avatar: this.userData.avatar_url,
-                          };
-                          await Utils.addToStorage('users', userInfo.id.toString(), this.userData);
+                          let searchResults = await Utils.fetchInformation(
+                              `https://api.github.com/search/users?q=${this.username}`,
+                          );
+                          let index = searchResults["items"].findIndex((item) => {
+                            return item['id'] === userInfo['id'];
+                          });
+                          await Utils.addToStorage(
+                              'users',
+                              userInfo.id.toString(),
+                              searchResults["items"][index],
+                          );
                         }
                         this.setState({
                           isFav: !this.state.isFav,
