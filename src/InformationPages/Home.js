@@ -138,7 +138,7 @@ export default class App extends React.Component {
                     }>
                     <Avatar rounded source={{uri: item.user.avatar_url}} />
                     <ListItem.Content>
-                        <ListItem.Title>{item.user.login}</ListItem.Title>
+                        <ListItem.Title>{item.title}</ListItem.Title>
                         <ListItem.Subtitle>{'Status: ' + item.state}</ListItem.Subtitle>
                     </ListItem.Content>
                     <ListItem.Chevron />
@@ -164,41 +164,34 @@ export default class App extends React.Component {
                     callback={this.getDropdown.bind(this)}
                     search={this.state.dropdown}
                 />
-                <Icon name={"refresh"} onPress={() => {this.getDropdown(this.state.dropdown)}}/>
                 {this.state.result === '' ? (
                     <View>
-                        <Text style={styles.welcome}>Favorites</Text>
+                        <View style={{flexDirection: 'row'}}>
+                            <Text style={styles.welcome}>Favorites</Text>
+                            <View style={{flex: 1, alignItems: 'flex-end', flexDirection: 'column',}}>
+                                <Icon name={"refresh"} onPress={() => {this.getDropdown(this.state.dropdown)}}/>
+                            </View>
+                        </View>
                         <FlatList
                             data={this.state.fav}
                             renderItem={this.renderItem}
                             keyExtractor={(item, index) => 'key ' + index}
                         />
-                        {/*<ListItem
-                            Component={TouchableScale}
-                            friction={90}
-                            tension={100}
-                            activeScale={0.95}>
-                            <Avatar
-                                rounded
-                                source={{
-                                    uri: this.state.avatar_url,
-                                }}
-                            />
-                            <ListItem.Content>
-                                <ListItem.Title>{this.state.name ?? ''}</ListItem.Title>
-                                <ListItem.Subtitle>
-                                    {this.state.html_url ?? ''}
-                                </ListItem.Subtitle>
-                            </ListItem.Content>
-                            <ListItem.Chevron />
-                        </ListItem>*/}
                     </View>
                 ) : (
+                    <View>
+                        <View style={{flexDirection: 'row'}}>
+                            <Text style={styles.welcome}>Search</Text>
+                            <View style={{flex: 1, alignItems: 'flex-end', flexDirection: 'column',}}>
+                                <Icon name={"refresh"} onPress={() => {this.getDropdown(this.state.dropdown)}}/>
+                            </View>
+                        </View>
                     <FlatList
                         data={this.state.result}
                         renderItem={this.renderItem}
                         keyExtractor={(item, index) => 'key ' + index}
                     />
+                    </View>
                 )}
             </View>
         );
